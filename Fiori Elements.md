@@ -70,10 +70,14 @@ cds init clouddna
 The structure of the project is specified by SAP Cloud Application Programming Model data (see Figure 4.1), and the service provision and UI are kept separate from each other.
 
 Figure 4.1: Project Structure in SAP Cloud Application Programming Model
+![image](https://github.com/user-attachments/assets/fae0d5f9-4201-4bc9-8ec8-e110181c3805)
+
 
 The data model is created in the db directory, and .cds is used as the file extension. The name of the file doesn’t matter. In our example, we’ve created a file named model.cds (see Figure 4.2).
 
 Figure 4.2: Data Model within the “db” Directory
+![image](https://github.com/user-attachments/assets/8ebf9c93-6d6e-46a5-a2e0-679ac714931a)
+
 
 In this file, a namespace must be declared first to avoid name conflicts with your other projects or SAP projects. In our example, we create the entities Customer and Address in the namespace at.clouddna.cap (see Listing 4.1). Both entities are extended by the aspect managed. An aspect contains certain frequently needed properties. This is an artifact provided by SAP that must be referenced via the using request.
 
@@ -114,10 +118,12 @@ Syntax errors may be displayed.
 When starting the app, you also have the option of importing data into the database via a CSV import. To do this, you must create a file with the extension .csv in the db directory or in a subdirectory. A certain naming convention must be followed. The file name must be structured as follows: <Namespace>-<Entity>.csv (see Figure 4.3).
 
 Figure 4.3: CSV Files for a Data Import
+![image](https://github.com/user-attachments/assets/ccc308bf-6d3d-4bf7-af64-089c607bdbd9)
 
 After creating the data model in CDS, the next step is to create the OData service. No programming experience is required for this. The service is provided in the form of files that you must create with the .cds extension in the srv directory or a subdirectory (see Figure 4.4).
 
 Figure 4.4: OData Service in the srv Directory
+![image](https://github.com/user-attachments/assets/136aee04-6032-4e85-844c-d21036c4f30b)
 
 For our example, we created a service in the service.cds file. You can also split your service between different files. SAP Cloud Application Programming Model provides OData services of V4 in the standard. To provide the entities defined in the data model, you only need to create a projection. To do this, you must reference the previously defined data model using the using request and make it available under an alias. In the example in Listing 4.2, the alias cap was used.
 
@@ -134,7 +140,8 @@ By default, all CRUDQ methods are provided to you for each entity. These methods
 After you’ve started the app once again with the cds serve command, it’s accessible on the local host under port 4004. There, all web apps and the service endpoints of the project are provided with the associated metadata document (see Figure 4.5).
 
 Figure 4.5: SAP Cloud Application Programming Model Application Start Page
-Larger View
+![image](https://github.com/user-attachments/assets/25084bc3-7863-4b86-a7fb-c9afffc7a172)
+
 
 Listing 4.3 shows how read-only access to the entity is allowed via an additional service.
 
@@ -147,7 +154,8 @@ service SupportService @(path:'/support') {
 On the start page of the SAP Cloud Application Programming Model app, the preview of an SAP Fiori UI (Fiori Preview app) is provided for each entity (see Figure 4.6). For this purpose, an SAP Fiori elements app is generated dynamically. This automatically generated app should only be used for testing purposes.
 
 Figure 4.6: Fiori Preview App
-Larger View
+![image](https://github.com/user-attachments/assets/2208dc57-f4d3-4efe-b7c7-0cd256fecada)
+
 
 The appearance of the app is controlled by annotations. You can view and customize these in the service file with the extension .cds or in a separate .cds file in the srv directory. Listing 4.4 shows how the Customer entity has been annotated from the UI vocabulary. The example is limited to two annotations: SelectionFields and LineItem. You use the values of the SelectionFields annotation to control which filters are displayed. The values of the LineItem annotation control which fields are displayed in a table.
 
@@ -168,7 +176,8 @@ annotate UserService.Customer with @(
 Changes you make to these annotations are reflected directly in the app preview (see Figure 4.7).
 
 Figure 4.7: SAP Fiori Elements Preview of SAP Cloud Application Programming Model App
-Larger View
+![image](https://github.com/user-attachments/assets/b8f1ef2e-a7b8-44ff-a9d0-3fd04043603c)
+
 
 In this example, we aren’t yet satisfied with the display of the Search filter names in the preview in Figure 4.7. For example, instead of the text “ID”, we would like to display the text “Customer ID (Filter)” for the first filter element. By using attribute-specific annotations, here the @title annotation, you can affect the text displayed on the UI, as shown in Listing 4.5.
 
@@ -181,22 +190,22 @@ annotate UserService.Customer with {
 
 The changed annotations are then reflected in the preview in Figure 4.8.
 
-Figure 4.8: Preview of SAP Cloud Application Programming Model App after Addition of Title Annotations
-Larger View
+![image](https://github.com/user-attachments/assets/a95ac234-7803-4c2b-b0d9-faa542a36b29)
+
 
 The ultimate goal is to deliver the SAP Fiori UI together with SAP Cloud Application Programming Model app. SAP Cloud Application Programming Model allows the SAP Fiori app to be delivered in the app directory. For each app, a separate subdirectory must be created for this purpose. You can create the SAP Fiori apps using the Template Wizard, which is integrated into Visual Studio Code via a plug-in (see Figure 4.9). Here you can select different SAP Fiori elements floorplans for the structure of the pages, which we’ll present in detail in Part II.
 
-Figure 4.9: Template Wizard for Generating SAP Fiori Elements Apps
-Larger View
+![image](https://github.com/user-attachments/assets/3c5738de-5c66-44c1-9468-d4d613728bc2)
 
 After selecting a floorplan, you must define the Data source, CAP project folder path, and the OData service (see Figure 4.10).
 
-Figure 4.10: Template Wizard Data Source and Service Selection
-Larger View
+![image](https://github.com/user-attachments/assets/60affd6a-223a-4a1e-a40a-5afa30f22d8c)
+
 
 This wizard creates a complete directory structure for your SAP Fiori elements app in the app directory (see Figure 4.11).
 
-Figure 4.11: Directory Structure of a Generated SAP Fiori Elements App
+![image](https://github.com/user-attachments/assets/bb9f7251-8fb8-4cd5-8629-48d17746b13d)
+
 
 If you now restart the SAP Cloud Application Programming Model app, the jump to the SAP Fiori elements app is offered on the start page (see Figure 4.12).
 
@@ -204,4 +213,5 @@ By default, this app is also included in a local SAP Fiori launchpad, which serv
 
 We’ve deliberately shown you only a small part of SAP Cloud Application Programming Model here to give you an impression of what is possible with this programming model. We were able to completely create our sample app in just a few minutes. In our view, SAP Cloud Application Programming Model is a game changer when it comes to developing modern SAP apps. You don’t need to have any prior SAP knowledge to develop SAP apps. This means that the programming model also addresses a potentially very large target group.
 
-Figure 4.12: Homepage with the Jump to the SAP Fiori Elements App
+![image](https://github.com/user-attachments/assets/2b877dc9-d211-4773-9ac6-c676651fa509)
+
