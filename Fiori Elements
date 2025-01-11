@@ -1,0 +1,149 @@
+Overview:
+With the introduction of SAPUI5, SAP has laid the foundation for modern, user-friendly enterprise software user interfaces (UIs). In this chapter, we explain how SAPUI5, SAP Fiori, and SAP Fiori elements are related; how they contribute to user-friendly interfaces; and why you should use the latter framework.
+
+In this chapter, we’ll introduce you to the world of SAP’s new UI, SAP Fiori. To do this, we’ll first look back at the historical development of UIs for SAP solutions in Section 1.1. You’ll notice that a paradigm shift has taken place here in recent years. SAP has moved away from the historically evolved dynpro interfaces of the SAP GUI and is relying on web interfaces instead. The requirements for the development of such web interfaces based on SAPUI5 are very different from those for the development of SAP screens. We therefore compare the developer skills required in each case.
+
+What began with the introduction of SAPUI5 as a new UI technology was consistently continued with the design principles of SAP Fiori. In this context, we address the importance of the SAP Fiori design guidelines, which represent a generic blueprint for apps.
+
+Today, SAP customers use both on-premises systems and cloud products from SAP. Many SAP customers therefore want the UIs to look and behave consistently across the different SAP solutions. We discuss the different requirements for UIs in on-premises and cloud products in more detail in Section 1.2.
+
+SAP Fiori elements is often mentioned as a framework for low-code development. Low-code development isn’t just a buzzword, but an approach that has already found its way into many companies and can massively accelerate the development of new apps. SAP has recognized the trend and the potential of this approach and has invested in corresponding products and the acquisition of companies that provide tools for low-code development. In Section 1.3, we explain how the SAP Fiori elements framework fits into SAP’s portfolio for low-code development.
+
+Finally, in section Section 1.4, we present the data model used in the context of the examples in this book. This is an app created using SAP Cloud Application Programming Model, a concept for developing cloud apps on SAP Business Technology Platform (SAP BTP).
+
+1.1 Historical Development of User Interfaces at SAP
+For a long time, SAP had the image of not providing up-to-date UIs for its enterprise resource planning (ERP) software. SAP Graphical User Interface (SAP GUI), which was often cumbersome but established among SAP customers and beloved by power users, was no longer state of the art for many use cases. SAP GUI was the standard UI for classic SAP solutions such as SAP R/3 or SAP ERP. We often heard from SAP users that the UIs were functional but not appealing. In many cases, SAP GUI apps are equipped with functionality for very different user groups and therefore often appear cluttered and aren’t intuitive to use. SAP GUI apps are accessed via the SAP Logon. This is an app that must be installed on the end user’s computer.
+
+SAP GUI also exists in SAP S/4HANA systems. At this point, SAP has also done its homework regarding the themes and provided themes that are similar to the SAP Fiori style (see Figure 1.1).
+
+Figure 1.1: SAP GUI
+Larger View
+
+In the following sections, we’ll cover how web technology was used by SAP in history and why it’s the foundation for the next-generation SAPUI5, SAP Fiori, and SAP Fiori elements applications.
+
+1.1.1 Emergence of Web Interfaces
+With the dotcom boom that began in the late 1990s, many providers of software as a service (SaaS) solutions entered the scene and became serious competitors in the enterprise software environment. These cloud software vendors and operators focused on streamlined, web-based UIs. Compared to SAP, the competitors were able to start under completely different conditions. Their UIs were neither historically grown nor in use with hundreds of thousands of enterprise customers. A new release of SAP software that wasn’t backward compatible, on the other hand, would have led to a super mess. When you develop software from scratch, on the other hand, the requirement for backward compatibility doesn’t apply. Against this background, it can be said that SAP has almost always succeeded in balancing innovation and backward compatibility and has thus been able to satisfy most SAP customers.
+
+Even before the introduction of SAPUI5 and SAP Fiori, SAP was pursuing its own approaches for web-based UIs. With Web Dynpro Java and Web Dynpro ABAP, the company already had viable technologies to offer in the mid-1990s.
+
+[»]  What Is Web Dynpro?
+Web Dynpro is a client-independent programming model for developing UIs for business apps. It’s based on the Model View Controller (MVC) architectural pattern, which ensures separation of the business logic of an app from the data storage layer and the presentation logic. Web Dynpro runs on the SAP NetWeaver technology platform and was introduced for SAP NetWeaver Application Server for Java in 2004 and for SAP NetWeaver Application Server for ABAP in 2006.
+
+Web Dynpro apps are created in the Java or ABAP programming languages. JavaScript and HTML knowledge aren’t mandatory for the development, which was very conducive to acceptance by SAP developers.
+
+However, the increasing spread of smartphones and tablets and their use as mobile end devices for enterprise apps revealed the limits of this technology. More and more users of enterprise software were used to working exclusively with web-based or native apps that were optimally adapted to the operating systems of their mobile devices. This also changed the expectations for apps in the enterprise environment. Take, for example, social networks such as Facebook or LinkedIn, search engines such as Google, or e-commerce offerings such as Amazon, Alibaba, or Zalando. You’ll quickly recognize a commonality: all of these platforms are web-based and are complemented by native mobile apps where appropriate. SAP solutions, on the other hand, largely used proprietary technologies at this time. The users’ demand for modern UIs, as they were also offered in the consumer world, that is, in the private sector, moved SAP to invest in this area and to provide a suitable solution with SAPUI5.
+
+Proprietary technologies don’t always have to be disadvantageous, but in many cases, they bring with them a vendor lock-in. In addition, compared to open technologies and standards, such solutions usually address only a smaller group of potential developers. In the area of native apps for mobile devices, the dominance of Apple with its iOS operating system and Google with its Android operating system means that we are also partly in the realm of proprietary technologies, but this is offset by the fact that many developers of native apps have often become millionaires overnight thanks to the associated ecosystem. There is therefore no shortage of latecomers who want to do the same and have familiarized themselves with the corresponding technologies. SAP is trying to implement a similar concept to the Google and Apple app stores in SAP BTP with the SAP Store. Developers can use the store to provide SAP partner companies with their own apps for SAP customers. In this way, SAP wants to attract a larger developer community to its own platform.
+
+[»]  Continued Existence of Proprietary SAP Solutions
+Although SAP is relying more and more on open technologies, it must be mentioned here that the fundamental concepts of the SAP system such as the ABAP Dictionary (DDIC) or even the transport system are still unparalleled even on SAP’s 50th birthday in April 2022. These concepts are still so brilliant that it’s impossible to imagine modern ABAP development without them. The mere fact that you can still use the texts and translations in the DDIC, perhaps the short texts created by Hasso Plattner himself, to develop SAP Fiori apps according to today’s current ABAP programming models is impressive.
+
+1.1.2 Implementation of SAPUI5 and SAP Fiori
+The introduction of HTML5 as a standard for web-based apps also started a revolution at SAP. Although the official HTML5 specification from the World Wide Web Consortium (W3C) was delayed until its final adoption in 2014, SAP jumped on this bandwagon earlier and worked on a new and modern UI technology on this basis. The code name of this project was Phoenix. Later, the new technology became known as SAPUI5 (short for UI Development Toolkit for HTML5).
+
+At this point, SAP decided that user experience (UX) designers would be involved in the project from the very beginning. So right from the start, a lot of emphasis was placed on good design.
+
+One of the first books about UI design is Don’t Make Me Think. Web & Mobile Usability: The Intuitive Web by Steve Krug (mitp, 2014). The title is now a classic in this field. Even when the first edition of this book appeared, almost 20 years ago, Amazon and Google had set the benchmark for good design. The recipe for success was simple and intuitive usability, combined with short response times. During our first implementation of a SAPUI5 app in 2012, we quickly realized that SAP had implemented many of Steve Krug’s recommendations with SAPUI5. SAP’s guiding principle was consistency. They had recognized that consistent UI implementation across controls and interactions made apps easier to use and less error prone. This translated into shorter implementation times on one hand and lower maintenance efforts on the other. SAP had placed a high value on typography, color, and visual presentation, which was reflected in a high level of acceptance by users. The focus that SAP placed on visual appearance can be seen very clearly in the consistent look of the UI controls. Everything looks like it has been cast from a single mold while the design of the UI elements captures the spirit of the times and looks modern.
+
+In this section, we’ll discuss how this approach has affected the requirements for modern developers. We’ll also discuss SAP Fiori and how it interacts with the SAPUI5 framework.
+
+Changed Requirements for Modern Developers
+With the introduction of SAPUI5, SAP created the foundation on which the UIs of all SAP products, customer developments, and enhancements will be based in the future. However, SAPUI5 also places some new demands on developers that previously played little or no role in the SAP context. In the development process, JavaScript, in combination with HTML5 and CSS3, is moving into focus. To create the web interfaces, developers no longer work in the ABAP Workbench as they did when developing classic screens, but with Eclipse and similar web-based developer tools. Developers must therefore update their knowledge of these technologies and development environments and, in extreme cases, learn a completely new programming language.
+
+In many cases, there is a separation of tasks between backend and frontend development:
+
+Backend development
+This ensures that the required business data and metadata are exposed and provided to users via OData application programming interfaces (APIs) (see Chapter 3). Core Data Services views (CDS views) are used to implement the ABAP logic in the backend. CDS is a domain-specific language (DSL), which is intended to simplify the modeling of access to database tables. CDS views were made available with SAP NetWeaver 7.4.
+
+Frontend development
+ensures that the UI is developed and made available to end users. Outside the SAP world, frameworks such as Angular.js, Vue.js, or React are used for this in combination with various UI libraries. In the SAP environment, Web Dynpro for ABAP or SAPUI5 is used.
+
+This separation of responsibilities entails a corresponding coordination effort. A mandatory prerequisite is a common understanding of the technologies used. The backend developer must understand how web apps and OData APIs work and that old SAP technologies such as object locks can cause significant problems in web apps. The frontend developer, on the other hand, needs to understand how to access OData APIs in a performant manner and also how the underlying data model is structured and functions in the backend.
+
+SAP laid the foundation for modern, web-based UIs with SAPUI5 in 2009. With SAPUI5, SAP set itself the goal of making apps available on all end devices, regardless of the form factor. SAPUI5 offers developers a great deal of freedom, resulting in apps from different developers usually looking completely different. With the introduction of SAP Fiori, the appearance of the apps became more regulated.
+
+SAP Fiori
+The SAP Fiori design is built into the SAPUI5 framework. It’s now a framework that provides more than 170 controls and numerous layout types. This framework ensures that the layout, behavior of controls, and visual design are consistent across all SAP Fiori apps. However, this alone doesn’t guarantee a pleasant UX. Apps must be designed with the user requirements in mind.
+
+Even if development teams can master the new technologies and implement apps based on them, companies still face new challenges: How do we ensure that apps provide a consistent UX for different use cases? How can we follow consistent and established interaction patterns that consider the requirements of each use case? In a large software company such as SAP, these principles and patterns must be applied and implemented by countless app development teams working in a globally distributed manner. SAP’s engineers and designers have also taken this aspect into account.
+
+The SAP Fiori design guidelines, which we’ll discuss in more detail in Chapter 2, Section 2.2.3, provide development teams with a guideline on how apps should be built. The guidelines go far beyond general principles and paradigms. They provide concrete guidance on how to implement a user-centric approach. They explain not only how to apply the various layouts and patterns but also how not to apply them. The SAP Fiori design guidelines give you the big picture of the SAP Fiori UX and place technical features in this context. They help you make the connection between design considerations and the corresponding SAPUI5 controls. To do this, you define a common vocabulary for development and design teams that helps them discuss iterative changes made to apps. When all stakeholders speak the same language, the efficiency of app development can be increased.
+
+[»]  Scrum
+In the previous paragraph, you read correctly: “iterative changes.” With the modern and web-based UIs, an agile approach called Scrum has also found its way into SAP development projects. Scrum is a methodology that implements agile project management ideas. The goal is to develop, deliver, and sustain complex products through collaboration, clearly defined responsibilities, and iterative progress. Scrum encourages collaborative decision-making and constructive feedback so that higher-value products can be delivered. A Scrum project management team consists of three roles: product owner, development team, and Scrum master. These roles are cross-functionally designed to increase flexibility, creativity, and productivity. The teams organize themselves.
+
+The interaction between SAPUI5 and the SAP Fiori design guidelines can be illustrated using an analogy from everyday life. SAPUI5 provides the building materials and tools for building a house. Of course, you could also use it to build a house on the fly, but such a project would run uncoordinated, and the result would only be predictable and reproducible to a limited extent. The SAP Fiori design guidelines provide the blueprint that helps you implement the building project in an efficient and standardized way.
+
+[+]  Adopt Development Guidelines
+We recommend that you study the SAP Fiori design guidelines before starting your development project and incorporate the relevant sections into your own developer guidelines. Ideally, you’ll also define criteria for the acceptance of developments based on these guidelines.
+
+1.1.3 Templates for Recurring Requirements
+With SAPUI5 and SAP Fiori, you have the tools and blueprints in hand to build modern apps efficiently. After you’ve developed a few apps, you’ll realize—at least we hope—there are requirements that recur repeatedly, such as displaying data in tables, manipulating data in forms, or visualizing data in the form of charts. You’ll create similar program code again and again. After a few projects, you’ll likely have defined your own code templates or libraries to copy from. How simple and ingenious would it be at this point if you could use metadata to control that tables, input forms, or graphics are automatically built by the framework? You could save a lot of time in development, and app maintenance would also become easier. The development teams at SAP also had these thoughts.
+
+This section will discuss SAPUI5 smart controls, how they can be controlled using UI annotations, and why SAP Fiori elements was the next logical step in transforming SAPUI5 partially to a low-code development approach.
+
+Smart Controls
+With version 1.30 of the SAPUI5 framework, smart controls were introduced. They allow you to control the structure and behavior of tables, forms, and charts completely via metadata without having to write a single line of JavaScript. Smart controls interpret OData metadata for this purpose. In certain cases, smart controls persist a user’s personalized version of the UI.
+
+[+]  Development with Smart Controls
+In theory, JavaScript knowledge is no longer required for this type of development. Nevertheless, we recommend that you familiarize yourself with the basics of JavaScript.
+
+User Interface Annotations
+The metadata is provided in the form of annotations. An annotation is additional information that enriches an entity or an attribute of an entity. Annotations are interpreted at runtime by the SAPUI5 framework and control how the data is displayed. Annotations can be provided both via the data source and locally within the app. The data source is exclusively OData, a protocol that we’ll present in more detail in Chapter 3. The development of the frame application and other functions outside of tables, forms, and charts, which are implemented using the smart controls, continues to be done in JavaScript. If we take the analogy of building a house, you can think of the smart controls as a prefabricated basement, while the rest of the house continues to be built conventionally.
+
+The following smart controls are available in the SAPUI5 framework:
+
+Smart field, including value help
+
+Smart form
+
+Smart table, including the smart filter bar
+
+Smart chart
+
+Figure 1.2 shows a smart chart, for example. While it accesses the specific data model of your app, the graphical implementation of the bar chart is automated based on a template.
+
+SAP Fiori Elements
+The next evolutionary step to simplify the development process was SAP Fiori elements, the prefab house in our house building analogy, so to speak. With this framework, you can create your own apps without any JavaScript knowledge. The prerequisite is that the use cases are standardized.
+
+Figure 1.3 shows the architecture of an SAP Fiori app created with SAP Fiori elements. The SAP Fiori app is executed in the SAP Fiori launchpad. The data to be displayed is obtained via an OData service. The configuration of the app in the form of annotations is done either via a separate app configuration or via the metadata of the OData service.
+
+Figure 1.2: Smart Chart
+Larger View
+
+Figure 1.3: SAP Fiori Elements: Components
+Larger View
+
+The SAP Fiori elements framework provides floorplans, that is, patterns for the most commonly used app types. The framework provides the following floorplans:
+
+List report
+
+Worklist
+
+Object page
+
+Overview page
+
+Analytic list page
+
+In the chapters in Part II, we go into detail about the different floorplans and their use cases. As an example, you can see the object page floorplan in Figure 1.4. The object page allows users to create, view, edit, and delete objects, as well as save drafts. It’s suitable for both simple objects and more complex, multilayered objects. The object page offers optimal support for the different form factors of end devices.
+
+Figure 1.4: Object Page Floorplan
+Larger View
+
+SAP Fiori elements is designed to significantly accelerate development while ensuring a consistent UX across apps. The framework nevertheless offers you a high degree of flexibility when it comes to the extent to which you want to use it, as Figure 1.5 illustrates:
+
+Configuration of your app is mandatory in all cases.
+
+The required annotations can be created either in the backend or within the app.
+
+Your app can also be extended using standard SAP technologies.
+
+This allows you, for example, to create a global base app while also covering deviating requirements for specific countries or business areas in separate apps. In object-oriented programming (OOP), we would discuss inheritance at this point, defining a root class with generic attributes and methods and with child classes implementing deviations and enhancements of the root class.
+
+As a developer, you’ll also enjoy a high degree of flexibility in the backend. You have the option to create annotations for an OData service directly in the backend. This allows you to control the behavior and appearance of the apps directly from the backend without interfering with the frontend development of the SAP Fiori app. SAP Fiori elements supports OData V2 and V4, but there are differences and special features in both versions, which we briefly discuss in Chapter 3.
+
+Figure 1.5: Flexible Use of SAP Fiori Elements
+Larger View
+
+At this point, you’re probably legitimately asking yourself why you should rely on SAP Fiori elements, and whether the prefab approach will really meet your needs. These questions can be answered simply. SAP doesn’t even claim to provide the perfect and only solution for all requirements with SAP Fiori elements. In our experience, floorplans cover about 80% of UI development scenarios. SAP Fiori elements is therefore suitable for four out of five planned apps. Perhaps the Pareto principle comes to mind, which states that 80% of the requirements can be implemented with 20% of the effort, while the remaining 20% of the requirements require 80% of the effort. With SAP Fiori elements, it’s similar: a large part of your requirements will be covered by this framework with great efficiency gains compared to manual development. However, there are also requirements that can only be implemented to a limited extent or not at all with SAP Fiori elements. For example, if you want to display data in the network graph, a standard control of the SAPUI5 library, this will only be possible with a more complex freestyle development.
