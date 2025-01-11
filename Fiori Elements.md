@@ -357,7 +357,7 @@ In the upper area of the app is the dynamic page header (Figure 6.1 ➊), which 
 If you want to further restrict the data displayed, you can do so using smart filter ➋, which is located below the title in the dynamic page header. For example, you can filter the data displayed so that only entries that match your filter criteria are shown, such as only certain date values, totals, and so on.
 
 Figure 6.1: SAP Fiori Elements Overview Page
-![Uploading image.png…]()
+![image](https://github.com/user-attachments/assets/5e3e0440-f3b1-429f-b9c4-c3f9a9c5755b)
 
 
 The actual content is represented by the area with the cards, also called dynamic page content ➌. Cards belong to the components of the UI that can be configured via annotations. This makes them very versatile, as data can be displayed in many different ways. All kinds of charts, tables, or lists can be displayed within a card. The cards are displayed in five dynamic columns, whereby a card can also extend over several columns. They can be arranged as desired via drag and drop.
@@ -492,3 +492,509 @@ Figure 6.5: SAP Fiori Elements Object Page
 
 
 The object page should be used if you want to allow users to view, create, and edit business objects. It’s also very practical to get an overview of an object and to use some interaction possibilities.
+
+
+6.2 Use Cases for the Floorplans
+With the help of the individual floorplans, all conceivable scenarios can be mapped. The individual use cases have already been mentioned in the previous sections. Here, we compare them once again:
+
+Overview page
+The aim of the overview page is to provide users with an overview of a subject area or a business division. For example, they can get an overview of sales figures, earnings, or other information.
+An overview page is therefore often classified as a launchpad, but there are significant differences: while the classic launchpad exists only once for each user, an overview page can have different views for a user. In addition, the contents of an overview page are context-related, whereas with the launchpad, you access completely different apps depending on your role.
+
+List report
+You should use the list report especially if you want to enable filtering, sorting, and grouping of large amounts of data. The display is in table or list form. List reports can also be ideally combined with the object page to display the details of a list object.
+
+Worklist
+The scope of the worklist is very similar to that of the list report. One difference is the data displayed. In the worklist, data records, called work items, are displayed that are to be processed by a user. In addition, a worklist contains actions that complete a process or workflow, such as releases.
+
+Analytical list page
+The analytical list page is mainly used when it comes to displaying analytical data and breaking it down to several levels. For example, you can display the turnover of customers in chart form. By selecting an individual customer, you get an exact breakdown of how this total turnover came about.
+
+Object page
+The object page is basically the detailed view of a single object. This floorplan gives you a detailed overview of the respective object. It can be used not only to display and edit the objects but also as a form to create new objects.
+
+6.3 Generic Annotations
+When you create apps using SAP Fiori elements, you’ll notice that a lot is controlled by annotations within these apps. You can determine what content is displayed and how it’s displayed. But functions such as filters can also be controlled via annotations.
+
+The annotations can come from the OData service in the backend system, or they can be stored locally in the SAPUI5 app in a separate file. To simplify the maintenance of this file for SAP Fiori elements apps, the annotation modeler is provided. This is available in SAP Web IDE.
+
+In the following sections, we’ll present specific UI annotations for each of the floorplans presented, which you can use to influence the display on the interface. The annotations listed in this section, on the other hand, are generic and can thus be applied to any floorplan of SAP Fiori elements.
+
+6.3.1 UI.HeaderInfo
+The following annotation is used to control the display of the respective headers:
+
+UI.HeaderInfo.typeName
+Datatype: String(60)
+
+Example: UI.HeaderInfo.typeName: 'Order'
+
+This string, which can contain up to 60 characters, is displayed in the header of the called app and indicates the name of an object type. This annotation must be obligatory if the annotation EndUserText.label isn’t used instead. This annotation is typically defined in a Core Data Services (CDS) view and contains a title for the CDS view that is as meaningful as possible.
+
+UI.HeaderInfo.typeNamePlural
+Datatype: String(60)
+
+Example: UI.HeaderInfo.typeNamePlural: 'Orders'
+
+This represents the title of a list and is mandatory.
+
+UI.HeaderInfo.typeImageUrl
+Datatype: String
+
+Example: UI.HeaderInfo.typeName: '/img/order'
+
+This contains the URL of an image used to represent the object type and can be specified optionally.
+
+6.3.2 UI.selectionField
+With these annotations, you can determine which filter criteria you want to provide. The following variants are available:
+
+UI.selectionField.qualifier
+Datatype: String(120)
+
+Example: UI.selectionField.qualifier: 'Ordernumber'
+
+With this string of up to 120 characters, a unique name for a selection field can be specified.
+
+UI.selectionField.position
+Datatype: Decimal
+
+Example: UI.selectionField.position: 16
+
+This property controls the order of the individual filter criteria. The individual criteria are sorted in ascending order.
+
+6.3.3 UI.lineItem
+The annotation UI.lineItem allows you to control the presentation of data fields in tables and lists. For example, you can specify which columns should be present, how they should be arranged, and also what the column heading should look like. The following specifications are possible here:
+
+UI.lineItem.position
+Datatype: Decimal
+
+Example: UI.lineItem.position: 16
+
+The position of a column can be determined by the value of this annotation. This annotation must be obligatory.
+
+UI.lineItem.importance
+Datatype: String
+
+Possible values: HIGH, MEDIUM, LOW
+
+Example: UI.lineItem.importance: HIGH
+
+This indicates the priority of a column. This specification plays a role if not all columns can be displayed due to the display size.
+
+UI.lineItem.label
+Datatype: String(60)
+
+Example: UI.lineItem.label: 'Ordernumber'
+
+This indicates the title of the respective column in the table.
+
+6.3.4 UI.hidden
+With this annotation you can control the visibility of UI elements. Possible values for this are true or false. A corresponding specification could therefore look as follows:
+
+UI.hidden: false 
+
+
+7.2 Annotations for Overview Pages
+In this section, we’ll introduce you to annotations that are essential for creating an overview page. These annotations can be added directly in the CDS view or locally in the SAPUI5 app. With regard to the reusability of the annotations, there is a lot to be said for adding them directly in the CDS view.
+
+UI.SelectionVariant
+
+Example: UI.SelectionVariant [{qualifier: 'Default'}]
+
+This annotation makes it possible to preselect the data using filters. In this way, filters defined for specific cards can be applied to shorten the loading time and to aggregate the data for the respective card. A unique identifier for the variant to be used can be specified via a character string of up to 120 characters.
+
+UI.HeaderInfo
+
+Example: UI.headerInfo: {typeName: 'Order', typeNamePlural: 'Orders', typeImageUrl: '/img/order.png'}
+
+The annotation UI.HeaderInfo is basically used to define the properties of a title. In the case of the overview page, this annotation defines the title area of a card. This allows you to define whether you want to display a title (for singular and plural), a description, and/or optionally an image. The titles can be up to 60 characters long.
+
+UI.FieldGroup
+
+Example: UI.FieldGroup.label: ‘Name’
+
+With the help of this annotation, a group of data fields is defined, whereby each data field comprises a label (i.e., a display text) and a value. In this way, a form can be constructed. This display text has a maximum length of 60 characters.
+
+UI.Facets
+
+Example: UI.Facet: [{label: 'Demo', targetElement: 'demoElement'}]
+
+The UI.Facets annotation is used to create a context between a card and another annotation. For example, it would not be sufficient to simply add the annotation UI.FieldGroup, but this must also be assigned to a card via a UI.Facets annotation. This assignment is done via the Qualifier property.
+
+UI.Chart
+This annotation can be used to define which dimensions and measures are to be used for the representation of a chart. For this purpose, the dimension is defined with UI.Chart.DimensionAttributes.Dimension and the measure with UI.Chart.MeasureAttributes.Measure. You can see a detailed example of this later in Listing 7.8.
+
+Depending on the type of card you use, the additional annotations offered differ. If you’re implementing a list or table card, for example, you’ll need the UI.LineItem annotation. If you choose an analytical card instead, you’ll need to consider using a UI.Chart annotation. We introduced the UI.LineItem annotations in Chapter 6, Section 6.3.
+
+7.3 Core Data Services Views for Overview Pages
+The development of an SAP Fiori elements app starts with a CDS view. In this case, we’ll prepare a CDS view for an overview page. This is defined in the ABAP Development Tools (ADT) in Eclipse.
+
+In Listing 7.3, we define an example CDS view. We specify the source of the data to be displayed on our overview page and define how this data is to be displayed via annotations. These annotations are used to pass certain definitions and information to the UI. The UI of our SAP Fiori elements app can virtually build up “itself” based on these annotations. First of all, we want our overview page to display author data that comes from table ZAUTHOR. We specify which fields of this data source should be displayed, among others, title (title), first name (firstname), last name (lastname), birthday (birthday), and email address (email) are visible.
+
+You already know some of the inserted annotations. The UI.lineItem annotation takes care of the column definitions that are then read from a table, and the UI.selectionField annotation takes care of the filter conditions that should be visible in the filter bar. Further, we define the association, that is, the label, between authors and their books. These annotations are external annotations because they are defined directly in the CDS view and are passed via the OData service to the app.
+
+Don’t forget to release the CDS view directly as an OData service using the @OData.publish annotation, as shown in Listing 7.3.
+
+Listing 7.3: CDS View for Author Data
+@OData.publish: true
+define view ZOVP_AUTHORS as select from zauthor
+  association [0..*] to ZOVP_BOOKS as books
+  on $projection.id = books.AuthorId {
+    key id,
+    title,
+    @UI.lineItem: [{position: 10 }]
+    @UI.selectionField: [{position: 10}]
+    firstname,
+    @UI.lineItem: [{position: 20 }]
+    @UI.selectionField: [{position: 10}]
+    lastname,
+    birthday,
+    CONCAT_WITH_SPACE(firstname, lastname, 1) as fullname,
+    @UI.selectionField: [{position: 10}]
+    email,
+    books
+} 
+
+On our overview page, however, we not only want to display the author data but also a list and evaluations based on their corresponding books. For this purpose, we define a second CDS view, which we also release and register directly as an OData service. You can see this second CDS view in Listing 7.4.
+
+Listing 7.4: CDS View for Book Data
+define view ZOVP_BOOKS as select from zbook
+  association [1] to ZAUTHOR_CV as author
+  on author.Id = $projection.AuthorId{
+    key id as Id,
+    key author_id as AuthorId,
+    @UI.lineItem: [{ hidden: false }]
+    title as Title,
+    @UI.lineItem: [{ hidden: false }]
+    @Semantics.amount.currencyCode: 'Currency'
+    price as Price,
+    @Semantics.currencyCode: true
+    currency as Currency,
+    @UI.lineItem: [{ hidden: false }]
+    isbn as Isbn,
+    category as Category,
+    @UI.lineItem: [{ hidden: false, label: 'Stock' }]
+    stock as Stock,
+    author as Author
+} 
+
+This CDS view reads from the data source zbook and has an association to the previous CDS view. From this data source, we read, among others, the attributes title (title), price (price) and corresponding currency (currency), ISBN (isbn), and stock of books (stock). For all these attributes, we assign an alias with as, that is, another name.
+
+7.4 Developing an Overview Page in SAP Business Application Studio
+Based on the CDS views created in the previous section, you can create an SAP Fiori elements app. We’ll walk through the steps for this process in this section.
+
+7.4.1 Create a Project
+In SAP Business Application Studio, the first thing you need to do is to create a new project:
+
+Click Start from Template on the start page of the development environment, or select File • Start from Template in the top menu bar.
+
+In the newly opened dialog, you can select the project type, as shown. Select SAP Fiori application here, and confirm with Start, as shown in Figure 7.7.
+
+Figure 7.7: Select Template and Target Location
+![image](https://github.com/user-attachments/assets/f290097b-c9f1-4181-b562-daca1bd15924)
+
+
+In the next step, the different types of SAP Fiori elements apps or their floorplans are shown. Select the Overview Page, as shown in Figure 7.8.
+
+Figure 7.8: Floorplan Selection
+![image](https://github.com/user-attachments/assets/98b833f3-51ec-43a5-a14a-2cc6761167fa)
+
+SAP Fiori elements apps require an OData service as a data source. Therefore, in this step, you need to select the source system from which you want to consume the data and then determine the OData service, as shown in Figure 7.9.
+
+Figure 7.9: Data Source and Service Selection
+![image](https://github.com/user-attachments/assets/52ab9f7c-e4cd-43eb-ba01-020a55a28cd2)
+
+You’ve already learned about one key feature of the overview page in the previous sections. You can apply filter conditions to a specific entity type. These filters are applied across multiple cards on which the attribute we’re filtering for is found. In this step, you need to select this entity type from the Filter entity list, as shown in Figure 7.10.
+
+Figure 7.10: Entity Selection for a Global Filter
+![image](https://github.com/user-attachments/assets/de784a28-49e0-455b-a7ec-97d9d02bb28a)
+
+In the last step of the creation process, you need to specify the project details, such as the Module Name, Application Title, or location, as shown in Figure 7.11.
+
+Figure 7.11: Project Attributes
+![image](https://github.com/user-attachments/assets/bca20a29-80fa-4983-af10-113f0ce83c1a)
+
+7.4.2 Add a Table Card
+After the project is created, you can start designing the UI. The first card we want to display is a table card on our overview page. We’ve already defined the external annotations @UI.lineItem that are necessary for this in the CDS view in Section 7.3. Now we need to add the local definitions to the app itself to make the card visible.
+
+With the guided development tool, you can make local changes to the app in a guided dialog. Because such changes to SAP Fiori elements apps often involve specific definitions in the metadata that you don’t necessarily know, you’re provided with suitable instructions at this point by a wizard, which you can then go through step by step. In Chapter 12, we’ll go into more detail about how guided development works and its possibilities.
+
+For our example, call the wizard as follows:
+
+Open the context menu of your project in the Project Explorer, and select the entry Open Guided Development (see Figure 7.12). Alternatively, you can open the command window via the menu path View • Find Command and search for Fiori: Open Guided Development. Then run that command.
+
+Figure 7.12: Open the Guided Development
+![image](https://github.com/user-attachments/assets/a0f6f039-a997-480c-9a68-cb47a3aba553)
+
+A list with the possible guided developments appears (Figure 7.13). From this list, select the Add a table card to an overview page instruction.
+
+You’ll get to the detailed description of this local development (see Figure 7.14).
+
+Figure 7.13: List of Guided Developments for an Overview Page
+![image](https://github.com/user-attachments/assets/9ebcbdc5-492f-4b7d-acca-87d398c0d845)
+
+Figure 7.14: Details about the Local Table Card Enhancement
+![image](https://github.com/user-attachments/assets/ecd0f490-ec0e-4a3c-9fcf-454e68978458)
+
+The instructions basically assume that no external annotations have been maintained yet and therefore guide you through both the creation of the necessary annotations and the metadata definitions. Because we’ve already defined the necessary annotations for the table card in our CDS view, in this case, we only need to complete Step 5 and Step 6. In these steps, you register the cards of the overview page in the manifest.json file.
+
+Here you have to make the following entries (see Figure 7.15):
+
+Model: Select the OData model as data source here. The OData model mainModel was added during the creation process of our project. Within this step, we selected the corresponding OData service.
+
+Entity Set: Select the entity set from this data source to be displayed on the card, in our example, the CDS view with its entity set ZOVP_AUTHORS.
+
+Card ID: Assign a unique identification for the table card here.
+
+Figure 7.15: First Part of Step 5 on the Table Card
+![image](https://github.com/user-attachments/assets/7ce44ad8-7827-48a4-88c1-8fa84e779851)
+
+Scroll further down. The following entries are required here (see Figure 7.16):
+
+Title: Enter the header title to be displayed on the card.
+
+Entity Type: Select the entity type, which, for this example, is the ZOVPAUTHORS_Type entity type that has been created for the authors.
+
+Click Insert Snippet and the metadata definition code will be generated automatically. Click Next.
+
+Figure 7.16: Second Part of Step 5 on the Table Card
+![image](https://github.com/user-attachments/assets/41d083df-8bc5-46d8-8bb9-4c331876c7b7)
+
+In the last step of these instructions, you have to enter the following inputs (see Figure 7.17):
+
+Model: Select the OData model as data source here. The OData model mainModel comes from our OData service added in the project creation.
+
+Card ID: Add the same unique identification for the table card you’ve defined in Step 5 here.
+
+Entity: Select the entity set from this data source to be displayed on the card, in our example, the CDS view ZOVP_AUTHORS.
+
+Click Insert Snippet, and the metadata definition code is automatically generated.
+
+After leaving the guided development by clicking Exit Guide, as a result of these steps, the table card definition you see in Listing 7.5 is inserted into the manifest.json file. Thanks to this guided development, you don’t need to know this definition by hard.
+
+Listing 7.5: Definition for the Table Card in manifest.json
+"sap.ovp": {
+  "cards": {
+    "card0": {
+      "model": "mainModel",
+      "template": "sap.ovp.cards.table",
+      "settings": {
+        "title": "Authors",
+        "entitySet": "ZOVP_AUTHORS"
+      }
+    }
+  }
+} 
+
+Figure 7.17: Step 6 on the Table Card
+![image](https://github.com/user-attachments/assets/47c28375-d059-4023-a026-58fee6165a50)
+
+With this, we already have everything needed to display a table card in our overview page. You can now call up a preview via the context menu of your project. To do this, select the Preview Application entry. You can see the preview in Figure 7.18. This example has an overview page with a dynamic page header and a first card that displays author names in a table.
+
+Figure 7.18: Table Card in the Overview Page
+![image](https://github.com/user-attachments/assets/188cae15-9f31-4614-92be-8acecc227176)
+
+7.4.3 Add an Analytical Card
+In the next step, we want to add an evaluation of all deliverable books of these authors in another card. To do this, we want to display a chart on the card that shows the stocks of the individual books, for which we create an analytical card. Because we’ve already defined a corresponding association in the CDS view, we can directly access the inventory data of the books and use this entity set for the evaluation. However, often you can’t read all the data from a single OData service. Therefore, in the following steps, we’ll show you how to include another data source, that is, another OData service, in your project.
+
+To do so, proceed as follows:
+
+Select View • Find Command from the menu bar, and search for the command “Consume SAP Services” (see Figure 7.19).
+
+Figure 7.19: Consume SAP Services
+![image](https://github.com/user-attachments/assets/8abb27cd-6e54-4215-974a-994570875205)
+
+When asked to which project the new OData service should be added, select the project path, in our case ./ SAP Fiori UI (see Figure 7.20).
+
+Figure 7.20: Select a Project
+![image](https://github.com/user-attachments/assets/628064fe-40ed-46eb-94c6-3babd3b7b078)
+
+Specify the source system from which your OData service originates. If you’ve connected an SAP system to SAP Business Technology Platform (SAP BTP), select My SAP systems to get to the selection of SAP systems (see Figure 7.21).
+
+All destinations available for your SAP BTP account are displayed (see Figure 7.22).
+
+Select the OData service (see Figure 7.23).
+
+Figure 7.21: Select the Data Source Location
+![image](https://github.com/user-attachments/assets/71239f9a-0e88-453d-8284-5d629a93a471)
+
+Figure 7.22: Select an SAP BTP Destination
+![image](https://github.com/user-attachments/assets/44c2aed9-7304-4482-a96f-61de51207cec)
+
+Figure 7.23: Select the OData Service
+![image](https://github.com/user-attachments/assets/3625adde-7c81-4c60-8304-f9cfe5c8768b)
+
+The connection to our added OData service is listed in the attribute dataSources in the manifest.json file. Not only the OData services but also their respective remote annotations are listed at this entry. Unfortunately, this reference to the corresponding remote annotation file wasn’t added for our OData service ZOVP_BOOKS_CDS. Therefore, we need to add this entry manually. You can find ZOVP_BOOKS_CDS_VAN and the reference to it in the property annotations in Listing 7.6.
+
+Listing 7.6: Entries in the Attribute “dataSources”
+"dataSources": {
+   ...
+   "ZOVP_BOOKS_CDS": {
+        "uri": "/sap/opu/odata/sap/ZOVP_BOOKS_CDS/",
+         "type": "OData",
+         "settings": {
+             "annotations": [
+                 "ZOVP_BOOKS_CDS_VAN"
+                ],
+            "odataVersion": "2.0",
+             "localUri": "localService/metadata.xml"
+         }
+    },
+        "ZOVP_BOOKS_CDS_VAN": {
+               "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZOVP_BOOKS_CDS_VAN',Version='0001')/$value/",
+              "type": "ODataAnnotation",
+               "settings": {
+                 "localUri": "localService/ZOVP_BOOKS_CDS_VAN.xml"
+              }
+        }
+} 
+
+In the Model View Controller (MVC) architecture pattern, which underlies all SAPUI5 apps and thus SAP Fiori elements apps, it’s defined that data to be represented in the view layer must come from a model. Therefore, we still need to create an OData model through which we can communicate with our OData service. You define the OData model in the manifest.json file at the models attribute. The command Consume SAP Services added a model automatically, but unfortunately as a default model. Default models have no names defined, which leads to some inconveniences when further development is done within guided development. Therefore, we add the name "books" to this automatically created OData model, as shown in Listing 7.7.
+
+Listing 7.7: OData Model Definition
+"models": {
+  ...
+  "books": {
+    "dataSource": "ZOVP_BOOKS_CDS",
+    "preload": true,
+    "settings": {
+      "defaultBindingMode": "TwoWay",
+      "defaultCountMode": "Inline",
+      "refreshAfterChange": false
+    }
+  }
+  ...
+} 
+
+The second card we create should be an analytical card. Within guided development, you can select the instruction Add an analytical card to an overview page. The procedure is very similar to the creation of the table card. Because we maintain some properties of the analytical card via the annotations in the CDS view, you don’t have to go through all the steps of the wizard but can navigate directly to Step 5. Make the following specifications for the analytical card here (see Figure 7.24):
+
+Model: Select the OData model books you just defined.
+
+Card ID: Assign a unique ID for the card.
+
+Entity Set: Select the entity set as data source.
+
+Title: Assign a title for the card.
+
+After making these settings, click on Insert Snippet to generate the code for defining the card. Then, click on Exit Guide to finish the guide.
+
+Figure 7.24: Step 5 on the Analytical Card
+![image](https://github.com/user-attachments/assets/8e992f09-9bce-4e8f-a0ea-abb76b1fe278)
+
+As a result, the definition of the analytical card is inserted into the manifest.json file. You can see this definition in Listing 7.8. In addition, in this case, manual adaptions are required for this snippet. For the card to work properly, the attribute chartAnnotationPath must be added.
+
+Listing 7.8: Entry for the Analytical Card in manifest.json
+"card1": {
+  "model": "books",
+  "template": "sap.ovp.cards.charts.analytical",
+  "settings": {
+    "title": "Stock",
+    "entitySet": "ZOVP_BOOKS",
+    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart"
+  }
+} 
+
+[ ! ]  Definition of the Analytical Card
+The definition chartAnnotationPath is needed for the analytical card to work in manifest.json. Unfortunately, with each subsequent guided development, this attribute we added manually is overwritten. If your analytical card no longer works after a change, you should check whether the card definition in manifest.json has been overwritten by the system.
+
+While we’ve defined the properties of the card using the wizard, we want to define the appearance of the chart of book stocks using UI annotations in the CDS view (see Listing 7.9). To do this, we use the @UI.chart annotation, through which we define the chart type and the values of the x- and y-axes. With the value #COLUMN for the attribute chartType, we indicate that it should be a bar chart. The book titles (attribute dimensions) should be displayed on the x-axis, and the number of available books meant to be displayed (attribute measures) should be displayed on the y-axis.
+
+Listing 7.9: Remote Annotation Regarding the Chart for Stock
+@UI.chart: [{
+    title: 'Stock',
+    chartType: #COLUMN,
+    dimensions: ['Title'],
+    measures: ['Stock'],
+    dimensionAttributes: [{
+        dimension: 'Title',
+        role: #CATEGORY
+    }],
+    measureAttributes: [{
+        measure: 'Stock',
+        role: #AXIS_1
+    }]
+}] 
+
+Now we can preview the result. To do this, start the app using the Preview Application context menu item, or reload the app that has already been started. You’ll see that another card has been added to the overview page (see Figure 7.25).
+
+Figure 7.25: Analytical Card in the Overview Page
+![image](https://github.com/user-attachments/assets/875064cb-840e-4fb6-9ef0-66327bbed48b)
+
+7.4.4 Add a List Card
+In the next step, we add a list card to the overview page on which we would like to display the available books in a list, each displaying price and ISBN. We’ve already done all the necessary preparations, that is, connecting the data source and defining the external annotations, so you only need to select the Add a list card to an overview page guide. There you can proceed directly to Step 5 of the guided development (see Figure 7.26).
+
+Here, you need to select the OData Model that you had created for the analytical card, select the same Entity Set, and assign a unique ID for the new card.
+
+In the lower part of this page, assign a Title for the card, select the Entity Type, and click Insert Snippet. Then click Next (see Figure 7.27).
+
+Figure 7.26: First Part of Step 5 on the List Card
+![image](https://github.com/user-attachments/assets/e50a2983-2c8b-45f3-a42c-13b99152be08)
+
+Figure 7.27: Second Part of Step 5 on the List Card
+![image](https://github.com/user-attachments/assets/65d6d5e6-e751-4ff9-810f-e85029be9072)
+
+
+Select the OData Model, enter the ID of the card, and select the Entity you defined in the previous step. Generate the definition of the card by clicking the Insert Snippet button. Click Exit Guide to leave the guided dialog (see Figure 7.28).
+
+Figure 7.28: Step 6 on the List Card
+![image](https://github.com/user-attachments/assets/f78b9ff4-4e7b-4fd3-a0b9-328632b49c6e)
+
+As a result, the definition from Listing 7.10 is inserted into the manifest.json file.
+
+Listing 7.10: Entry for the List Card in manifest.json
+"card2": {
+  "model": "books",
+  "template": "sap.ovp.cards.list",
+  "settings": {
+    "title": "Books",
+    "entitySet": "ZOVP_BOOKS"
+  }
+} 
+
+The result is a list-like representation of the books on a third card (see Figure 7.29).
+
+Figure 7.29: List Card in the Overview Page
+![image](https://github.com/user-attachments/assets/aae87a32-661c-43a1-96bb-0f2c34454f71)
+
+
+7.4.5 Add a Stack Card
+We round off our overview page with a stack card. This should contain a collection of several cards and thus represent a summary of certain entities. To do this, use the Add a stack card to an overview page tutorial. In Step 5 of the wizard, you create the definition of the card by selecting the example OData Model and Entity Set, assigning an ID for the card, and defining a Title (Figure 7.30). Click on Insert Snippet to generate the definition of the card, and then click Exit Guide.
+
+As a result, the stack card definition is inserted into the manifest.json file (see Listing 7.11).
+
+Listing 7.11: Entry for the Stack Card in manifest.json
+"card3": {
+  "model": "books",
+  "template": "sap.ovp.cards.stack",
+  "settings": {
+    "title": "All books",
+    "entitySet": "ZOVP_BOOKS"
+  }
+} 
+
+In Section 7.2, we explained that UI.facet annotations are responsible for building form-like representations of information. Because we want to display several books in detail in this stack card, we add such an annotation to our CDS view ZOVP_BOOKS for the book data (see Listing 7.12).
+
+Figure 7.30: Step 5 on the Stack Card
+![image](https://github.com/user-attachments/assets/11e83741-6b22-4e23-8389-2e2e17289ec0)
+
+
+Listing 7.12: “UI.Facet” Annotation in the CDS View
+@UI.facet: [{
+  targetQualifier: BOOK,
+  type: #FIELDGROUP_REFERENCE,
+  isSummary: true
+}] 
+
+UI.Facet belongs to a set of annotations that can contain several other annotations. A relationship must be established between these annotations. For this purpose, one often resorts to qualifier attributes. You can think of these qualifiers as IDs that can be used to access and reference the annotation that you’ve defined. Under the targetQualifier named BOOK, we group together a set of fields to be displayed on the form-like display. Among other things, we want to display the prices of the books in the form-like representation. For this purpose, we refer to the field group with the ID BOOK with the following annotation:
+
+@UI.fieldGroup:
+@UI.fieldGroup: [{ position:10, qualifier: BOOK }]
+price as Price, 
+Repeat this step for all attributes that should be assigned to this field group. You’ll see what other representations are possible with the UI.Facet and UI.FieldGroups annotations in Chapter 10.
+
+First of all, back to our stack card: you can see how it’s output on the overview page using the preview function (see Figure 7.31).
+
+Figure 7.31: Stack Card in the Overview Page
+![Uploading image.png…]()
+
+
+In this section, you’ve become familiar with the most important annotations for the overview page and also gained a first insight into the working process with guided development in SAP Business Application Studio. You’ll come across some of the annotations used here again in the subsequent chapters on the other floorplans. We’ll also continue to work with guided development, which you’ll find more detailed information about in Chapter 12. There, we’ll come back to the overview page defined here and show you the extension possibilities of this floorplan.
